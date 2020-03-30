@@ -10,6 +10,7 @@ data = requests.get('https://www.genie.co.kr/chart/top200?ditc=D&rtm=N&ymd=20200
 # 이제 코딩을 통해 필요한 부분을 추출하면 된다.
 soup = BeautifulSoup(data.text, 'html.parser')
 
+# TODO: 제일 마지막 tr.list만 써주셔도 코드는 문제없이 실행됩니다. 그럼 title_tag, singer_tag 쪽 코드도 줄일 수 있겠죠?
 songs = soup.select('#body-content>div.newest-list>div.music-list-wrap>table.list-wrap>tbody>tr.list')
 rank = 0
 for song in songs:

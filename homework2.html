@@ -75,7 +75,7 @@
             let amount = $('#your_amount').val();
             let address = $("#your_address").val();
             let number = $("#your_number").val();
-            var phoneNumberRegex = /^[010-][0-9]{4}[-][0-9]{4}$/;
+            // var phoneNumberRegex = /^[010-][0-9]{4}[-][0-9]{4}$/;
             let temp_html = '<li>' + name + amount + address + number + '</li>';
             //이름에 입력을 해도, '이름을 입력해 주세요' 알림이 뜹니다. 왜 그럴까요?ㅜㅜ   
             if (name == '') {
@@ -92,11 +92,9 @@
                 alert('번호를 입력해 주세요');
                 $('#your_number').focus();
 
-            } else if (!phoneNumberRegex.test(number)) {
-                alert("휴대폰 입력 형식이 틀립니다.");
             } else {
                 alert("주문이 완료되었습니다.");
-                $('info').append(temp_html);
+                $('#info').append(temp_html);
 
             }
         }
@@ -127,9 +125,9 @@
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="your_name">주문자 이름</span>
+            <span class="input-group-text" >주문자 이름</span>
         </div>
-        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        <input id="your_name" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
     </div>
 
     <div class="input-group mb-3">
@@ -146,16 +144,17 @@
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="your_address">주소</span>
+            <span class="input-group-text">주소</span>
         </div>
-        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        <input id="your_address" type="text" class="form-control" aria-label="Default" 
+        aria-describedby="inputGroup-sizing-default">
     </div>
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="your_number">전화번호</span>
+            <span class="input-group-text">전화번호</span>
         </div>
-        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        <input id="your_number" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
     </div>
     <div class="btn1"><button onclick="checklist()" type="button" class="btn btn-primary">주문하기</button></div>
 
