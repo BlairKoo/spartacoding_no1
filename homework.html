@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Song+Myung&display=swap" rel="stylesheet">
+    <!-- Webpage Title -->
+    <title>TWG 판매사이트</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .input-group {
+            width: 500px;
+            margin: auto;
+        }
+
+        .image {
+            width: 300px;
+            height: 300px;
+        }
+
+        img {
+            display: block;
+            margin: 50px auto;
+        }
+
+        * {
+            font-family: 'Song Myung', serif;
+        }
+
+        .btn1 {
+            width: 20px;
+            margin: 30px auto;
+        }
+
+        .big-text {
+            width: 500px;
+            margin: 20px auto;
+        }
+
+        .small-text {
+            width: 500px;
+            margin: 40px auto;
+        }
+
+        .orders {
+            width: 500px;
+            margin: 40px auto;
+        }
+
+        .title {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .price {
+            display: inline;
+        }
+    </style>
+    <script>
+
+
+        function isCellPhone(p) {
+            var regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})[-][0-9]{3,4}[-][0-9]{4}$/;
+            return regExp.test(p);
+        }
+
+        function checklist() {
+            let name = $('#order_name').val();
+            let count = $('#order_count').val();
+            let address = $('#order_address').val();
+            let phone = $('#order_phone').val();
+
+            if (name == '') {
+                alert('이름을 입력해주세요')
+                $('#order_name').focus()
+                return
+            } else if (count == '') {
+                alert('수량을 입력해주세요')
+                $('#order_count').focus()
+                return
+            } else if (address == '') {
+                alert('주소를 입력해주세요')
+                $('#order_address').focus()
+                return
+            } else if (phone == '') {
+                alert('휴대폰번호를 입력해주세요')
+                $('#order_phone').focus()
+                return
+            } else if (!isCellPhone(phone)) {
+                alert('휴대폰번호 입력 형식이 틀립니다. \n 010-0000-0000으로 입력해주세요')
+                return
+            }
+            $.ajax({
+                type: "POST",
+                url: "/orders",
+                data: { name_give: name, count_give: count, address_give: address, number_give: number },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('주문 완료!');
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+        $(document).ready(function () {
+            $('#orders-box').html('');
+            listing();
+        });
+
+        function listing() {
+            // 1. 리뷰 목록을 서버에 요청하기
+            // 2. 요청 성공 여부 확인하기
+            // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
+            $.ajax({
+                type: "GET",
+                url: "/orders",
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        let reviews = response['reviews']
+                        for (let i = 0; i < reviews.length; i++) {
+                            const element = reviews[i];
+                            let name = element['name'];
+                            let count = element['count'];
+                            let address = element['address'];
+                            let number = element['number'];
+                            make_card(name, count, address, number);
+
+
+
+                        }
+
+                        // 2. 성공했을 때 리뷰를 올바르게 화면에 나타내기
+                    } else {
+                        alert('주문을 받아오지 못했습니다');
+                    }
+                }
+            });
+        }
+
+        function make_card(name, count, address, phone) {
+            let temp_html = '<tr>\
+            <td>'+ name + '</td>\
+            <td>'+ count + '</td>\
+            <td>'+ address + '</td>\
+            <td>'+ phone + '</td>\
+          </tr>';
+            $('#orders-box').append(temp_html);
+        }
+
+
+    </script>
+</head>
+
+
+
+<body>
+    <img class="image"
+        src="https://images.krisshop.com/pim/kyzmlMSJuyeduNtL_vrrbZ31r_wg6qci9WYSvA-NrS0=/0x0/catalog/b/4/f/2/b4f2c3788689e668b03a8303d93e94d6_Singapore_Breakfast_HC_1404021.jpg"
+        alt="">
+    <div class="big-text">
+        <div class="title">
+            <h1>
+                홍차를 팝니다
+            </h1>
+        </div>
+        <div class="price">
+            <h4>가격:55,000원/개</h3>
+        </div>
+    </div>
+    <div class="small-text">
+        <h5>이 홍차는 한 모금 한 모금에 싱가포르 차 장인의 숨결이 살아있습니다. 지금까지 당신이 알던 차와는 궤를 달리하는 이 상품, 마셔보시겠어요?
+        </h5>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">주문자 이름</span>
+        </div>
+        <input id="your_name" type="text" class="form-control" aria-label="Default"
+            aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">수량</label>
+        </div>
+        <select class="custom-select" id="your_amount">
+            <option selected>선택해주세요...</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">주소</span>
+        </div>
+        <input id="your_address" type="text" class="form-control" aria-label="Default"
+            aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">전화번호</span>
+        </div>
+        <input id="your_number" type="text" class="form-control" aria-label="Default"
+            aria-describedby="inputGroup-sizing-default">
+    </div>
+    <div class="btn1"><button onclick="checklist()" type="button" class="btn btn-primary">주문하기</button></div>
+
+    <div class="orders">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">이름</th>
+                    <th scope="col">수량</th>
+                    <th scope="col">주소</th>
+                    <th scope="col">전화번호</th>
+                </tr>
+            </thead>
+            <tbody id="orders-box">
+
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
