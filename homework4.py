@@ -11,7 +11,7 @@ def home():
     return render_template('homework.html')
 
 ## API 역할을 하는 부분
-@app.route('/reviews', methods=['POST'])
+@app.route('/orders', methods=['POST'])
 def write_review():
     #1. 정보를 잘 받자. 제목, 내용, 리뷰
     name_receive = request.form['name_give']
@@ -29,10 +29,10 @@ def write_review():
     db.orders.insert_one(doc)
 
     # 3. 잘 되었음을 클라이언트에게 알려주자
-    return jsonify({'result':'success', 'msg': '주문이 성공적으로 저장되었습니다.'})
+    return jsonify({'result':'success'})
 
 
-@app.route('/reviews', methods=['GET'])
+@app.route('/orders', methods=['GET'])
 def read_reviews():
     #1. 정보를 가져온다.
     orders = list(db.orders.find({}, {'_id': 0}))
