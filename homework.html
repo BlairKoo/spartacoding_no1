@@ -84,32 +84,32 @@
             let name = $('#order_name').val();
             let count = $('#order_count').val();
             let address = $('#order_address').val();
-            let phone = $('#order_phone').val();
+            let number = $('#order_number').val();
 
             if (name == '') {
-                alert('이름을 입력해주세요')
-                $('#order_name').focus()
-                return
+                alert('이름을 입력해주세요');
+                $('#order_name').focus();
+                return;
             } else if (count == '') {
-                alert('수량을 입력해주세요')
-                $('#order_count').focus()
-                return
+                alert('수량을 입력해주세요');
+                $('#order_count').focus();
+                return;
             } else if (address == '') {
-                alert('주소를 입력해주세요')
-                $('#order_address').focus()
-                return
-            } else if (phone == '') {
-                alert('휴대폰번호를 입력해주세요')
-                $('#order_phone').focus()
-                return
-            } else if (!isCellPhone(phone)) {
-                alert('휴대폰번호 입력 형식이 틀립니다. \n 010-0000-0000으로 입력해주세요')
-                return
+                alert('주소를 입력해주세요');
+                $('#order_address').focus();
+                return;
+            } else if (number == '') {
+                alert('휴대폰번호를 입력해주세요');
+                $('#order_number').focus();
+                return;
+            } else if (!isCellPhone(number)) {
+                alert('휴대폰번호 입력 형식이 틀립니다. \n 010-0000-0000으로 입력해주세요');
+                return;
             }
             $.ajax({
                 type: "POST",
                 url: "/orders",
-                data: { name_give: name, count_give: count, address_give: address, number_give: number },
+                data: { 'name_give': name, 'count_give': count, 'address_give': address, 'number_give': number },
                 success: function (response) {
                     if (response['result'] == 'success') {
                         alert('주문 완료!');
@@ -133,9 +133,9 @@
                 data: {},
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        let reviews = response['reviews']
-                        for (let i = 0; i < reviews.length; i++) {
-                            const element = reviews[i];
+                        let orders = response['orders']
+                        for (let i = 0; i < orders.length; i++) {
+                            const element = orders[i];
                             let name = element['name'];
                             let count = element['count'];
                             let address = element['address'];
@@ -154,12 +154,12 @@
             });
         }
 
-        function make_card(name, count, address, phone) {
+        function make_card(name, count, address, number) {
             let temp_html = '<tr>\
             <td>'+ name + '</td>\
             <td>'+ count + '</td>\
             <td>'+ address + '</td>\
-            <td>'+ phone + '</td>\
+            <td>'+ number + '</td>\
           </tr>';
             $('#orders-box').append(temp_html);
         }
@@ -181,7 +181,7 @@
             </h1>
         </div>
         <div class="price">
-            <h4>가격:55,000원/개</h3>
+            <h3>가격:55,000원/개</h3>
         </div>
     </div>
     <div class="small-text">
@@ -193,7 +193,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">주문자 이름</span>
         </div>
-        <input id="your_name" type="text" class="form-control" aria-label="Default"
+        <input id="order_name" type="text" class="form-control" aria-label="Default"
             aria-describedby="inputGroup-sizing-default">
     </div>
 
@@ -201,7 +201,7 @@
         <div class="input-group-prepend">
             <label class="input-group-text" for="inputGroupSelect01">수량</label>
         </div>
-        <select class="custom-select" id="your_amount">
+        <select class="custom-select" id="order_count">
             <option selected>선택해주세요...</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -213,7 +213,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">주소</span>
         </div>
-        <input id="your_address" type="text" class="form-control" aria-label="Default"
+        <input id="order_address" type="text" class="form-control" aria-label="Default"
             aria-describedby="inputGroup-sizing-default">
     </div>
 
@@ -221,7 +221,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">전화번호</span>
         </div>
-        <input id="your_number" type="text" class="form-control" aria-label="Default"
+        <input id="order_number" type="text" class="form-control" aria-label="Default"
             aria-describedby="inputGroup-sizing-default">
     </div>
     <div class="btn1"><button onclick="checklist()" type="button" class="btn btn-primary">주문하기</button></div>
